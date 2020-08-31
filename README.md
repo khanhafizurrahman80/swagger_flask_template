@@ -7,3 +7,8 @@ light-weight repo to document restful API using Swagger2.0 and Flask.
 export FLASK_APP=app.py
 flask run
 ```
+
+## View Swagger Documentation
+```
+http://localhost:5000/swagger-ui
+```
