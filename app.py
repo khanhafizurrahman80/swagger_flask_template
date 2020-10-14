@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
-from flask_restplus import Api, Resource
+from flask_restful import Api, Resource
 
+import api
 import auth
 from extension import apispec, db, jwt
 
@@ -23,6 +24,17 @@ def configure_apispec(app):
     apispec.spec.components.security_scheme(
         "jwt", {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
     )
+    apispec.spec.components.schema(
+        "PaginatedResult",
+        {
+            "properties": {
+                "total": {"type": "integer"},
+                "pages": {"type": "integer"},
+                "next": {"type": "string"},
+                "prev": {"type": "string"},
+            }
+        },
+    )
 
 
 def register_blueprints(app):
@@ -34,6 +46,7 @@ def register_blueprints(app):
 
     """
     app.register_blueprint(auth.views.blueprint)
+    app.register_blueprint(api.views.blueprint)
 
 
 app = Flask("common")
